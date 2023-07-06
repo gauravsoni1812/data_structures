@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+#include<bits/stdc++.h>
+int main(){
+    int v , e;
+    cin>> v>> e;
+    // We have vertices named 0 to v-1 and edges e
+    //matrix representation of a graph
+    // vector<vector<int>> graph(v,vector<int>(e,0));
+    // for(int i=0;i<v;i++){
+    //     int u,v;
+    //     cin >> u >> v;
+    //    graph[u][v]=1;
+    //    graph[v][u]=1;
+    // }
+ vector<int>adj[v+1];
+ for(int i=0;i<e;i++){
+    int u , v;
+    cin >> u >> v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+ }
+
+}
