@@ -1,31 +1,32 @@
 https://practice.geeksforgeeks.org/problems/topological-sort/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=topological-sort
 
-vector<int> topoSort(int n, vector<int> adj[]) 
+USING DFS
+
+void dfs(int src, vector<int>adj[] , vector<bool> &visited, stack <int> &st){
+	   visited[src]=true;
+	   for(int i=0;i<adj[src].size();i++){
+	       if(!visited[adj[src][i]]){
+	           dfs(adj[src][i],adj,visited,st);
+	       }
+	   }
+	   st.push(src);
+	}
+	vector<int> topoSort(int n, vector<int> adj[]) 
 	{
 	    // code here
-	    vector<int> indegree(n,0);
-	    queue<int>q;
-	    for(int i=0;i<n;i++){
-	        for(int j=0;j<adj[i].size();j++){
-	            indegree[adj[i][j]]++;
-	        }
-	    } 
-	    for(int i=0;i<n;i++){
-	        if(indegree[i]==0){
-	            q.push(i);
-	        }
-	    }
+	    vector<bool> visited(n,false);
 	    vector<int> ans;
-	    while(!q.empty()){
-	       int a=q.front();
-	       q.pop();
-	       ans.push_back(a);
-	       for(int i=0;i<adj[a].size();i++){
-	           indegree[adj[a][i]]--;
-	           if(indegree[adj[a][i]]==0){
-	               q.push(adj[a][i]);
-	           }
-	       }
+	    stack<int> st;
+	    for(int i=0;i<n;i++){
+	        if(!visited[i]){
+	            dfs(i,adj,visited,st);
+	        }
 	    }
+	    
+	    while(!st.empty()){
+	        ans.push_back(st.top());
+	        st.pop();
+	    }
+	    
 	    return ans;
-    }
+	}
