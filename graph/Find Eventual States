@@ -1,0 +1,53 @@
+https://practice.geeksforgeeks.org/problems/eventual-safe-states/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=eventual-safe-states
+
+bool dfs(int src, vector<int> &vis, vector<int> &pathvis, vector<int> adj[], vector<int> &check)
+{
+    vis[src] = 1;
+    pathvis[src] = 1;
+    check[src] = 0;
+    for (int i = 0; i < adj[src].size(); i++)
+    {
+        if (vis[adj[src][i]] == 0) // Use equality operator (==) instead of assignment operator (=)
+        {
+            if (dfs(adj[src][i], vis, pathvis, adj, check))
+            {
+                check[src] = 0 ;
+                return true;
+            }
+        }
+        else
+        {
+            if (pathvis[adj[src][i]] == 1)
+            {
+                check[src] = 0;
+                return true;
+            }
+        }
+    }
+    check[src] = 1;
+    pathvis[src] = 0;
+    return false;
+}
+vector<int> eventualSafeNodes(int n, vector<int> adj[])
+{
+    // code here
+    vector<int> pathvis(n, 0);
+    vector<int> vis(n, 0);
+    vector<int> check(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        if (vis[i] == 0)
+        {
+            dfs(i, vis, pathvis, adj, check);
+        }
+    }
+    vector<int> ans;
+    for (int i = 0; i < n; i++)
+    {
+        if (check[i] == 1)
+        {
+            ans.push_back(i);
+        }
+    }
+    return ans;
+}
