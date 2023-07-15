@@ -32,3 +32,41 @@ bool isBipartite(int V, vector<int>adj[]){
     
     return true;
 }
+
+
+
+BFS traversal
+
+bool check(int start, int V, vector<int>adj[],vector<int>&color){
+        color[start] = 0;
+        queue<int>q;
+        q.push(start);
+        while(!q.empty()){
+           int node = q.front();
+           q.pop();
+           for(auto j: adj[node]){
+               if(color[j] == -1){
+                   color[j] = !color[node];
+                   q.push(j);
+               }
+               else if(color[j] == color[node]){
+                   return false;
+               }
+           }
+        }
+        return true;
+    }
+
+    bool isBipartite(int V, vector<int>adj[]){
+        // Code here
+        vector<int>color(V,-1);
+        for(int i=0;i<V;i++){
+            if(color[i] == -1){
+                if(!check(i,V,adj,color)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
