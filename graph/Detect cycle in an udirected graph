@@ -1,0 +1,39 @@
+https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=detect-cycle-in-an-undirected-graph
+
+
+
+bool dfs(int src, int parent, int n, vector<int> adj[], vector<int> &visited)
+{
+    visited[src] = true;
+    for (int i = 0; i < adj[src].size(); i++)
+    {
+        if (!visited[adj[src][i]])
+        {
+            if (dfs(adj[src][i], src, n, adj, visited))
+            {
+                return true;
+            }
+        }
+        else if (parent != adj[src][i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isCycle(int n, vector<int> adj[])
+{
+    vector<int> visited(n, false);
+    for (int i = 0; i < n; i++)
+    {
+        if (!visited[i])
+        {
+            if (dfs(i, -1, n, adj, visited))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
