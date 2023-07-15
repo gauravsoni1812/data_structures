@@ -1,0 +1,70 @@
+https://practice.geeksforgeeks.org/problems/number-of-enclaves/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number-of-enclaves
+
+void dfs(vector<vector<int>> &aux, int row, int col)
+{
+    int n = aux.size();
+    int m = aux[0].size();
+    aux[row][col] = 2;
+    if (row - 1 >= 0 && aux[row - 1][col] == 1)
+    {
+        dfs(aux, row - 1, col);
+    }
+    if (row + 1 < n && aux[row + 1][col] == 1)
+    {
+        dfs(aux, row + 1, col);
+    }
+    if (col - 1 >= 0 && aux[row][col - 1] == 1)
+    {
+        dfs(aux, row, col - 1);
+    }
+    if (col + 1 < m && aux[row][col + 1] == 1)
+    {
+        dfs(aux, row, col + 1);
+    }
+}
+int numberOfEnclaves(vector<vector<int>> mat)
+{
+    vector<vector<int>> aux=mat;
+    int n = mat.size();
+    int count = 0;
+    int m = mat[0].size();
+    for (int i = 0; i < m; i++)
+    {
+        if (mat[0][i] == 1)
+        {
+            dfs(aux, 0, i);
+        }
+    }
+    for (int i = 0; i < m; i++)
+    {
+        if (mat[n - 1][i] == 1)
+        {
+            dfs(aux, n - 1, i);
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (mat[i][0] == 1)
+        {
+            dfs(aux, i, 0);
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (mat[i][m - 1] == 1)
+        {
+            dfs(aux, i, m - 1);
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (aux[i][j] == 1)
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+}
