@@ -1,0 +1,52 @@
+https://practice.geeksforgeeks.org/problems/number-of-distinct-islands/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number-of-distinct-islands
+
+void bfs(int row, int col, set<vector<pair<int, int>>> &st, vector<vector<int>> &grid, vector<vector<bool>> &visited)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    queue<pair<int, int>> q;
+    int row0 = row;
+    int col0 = col;
+    q.push({row, col});
+    vector<pair<int,int>>ans;
+    visited[row][col] = true;
+    while (!q.empty())
+    {
+        int row1 = q.front().first;
+        int col1 = q.front().second;
+        q.pop();
+        ans.push_back({row1 - row0, col1 - col0});
+        int delr[] = {-1,0,+1,0};
+        int delc[] = {0,+1,0,-1};
+        for (int i = 0; i < 4; i++)
+        {
+            int nrow = row1 + delr[i];
+            int ncol = col1 + delc[i];
+            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && !visited[nrow][ncol] && grid[nrow][ncol] == 1)
+            {
+                visited[nrow][ncol] = true;
+                q.push({nrow, ncol});
+            }
+        }
+    }
+    st.insert(ans);
+}
+int countDistinctIslands(vector<vector<int>> &grid)
+{
+    // code her
+    set<vector<pair<int, int>>> st;
+    int n = grid.size();
+    int m = grid[0].size();
+    vector<vector<bool>> visited(n, vector<bool>(m, false));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (grid[i][j] == 1 && !visited[i][j])
+            {
+                bfs(i, j, st, grid,visited);
+            }
+        }
+    }
+    return st.size();
+}
