@@ -1,0 +1,33 @@
+https://practice.geeksforgeeks.org/problems/flood-fill-algorithm1856/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=flood-fill-algorithm
+
+ 
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+    int n = image.size();
+    int m = image[0].size();
+    vector<vector<int>> ans = image;
+    int oldColor = image[sr][sc];
+    queue<pair<int, int>> q;
+    q.push({sr, sc});
+    ans[sr][sc] = newColor;
+    vector<vector<bool>> visited(n, vector<bool>(m, false)); // Mark visited cells
+    visited[sr][sc] = true;
+    int delr[] = {-1, 0, 1, 0};
+    int delc[] = {0, -1, 0, 1};
+    while (!q.empty()) {
+        int row = q.front().first;
+        int col = q.front().second;
+        q.pop();
+        for (int i = 0; i < 4; i++) {
+            int nrow = row + delr[i];
+            int ncol = col + delc[i];
+            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && !visited[nrow][ncol]) {
+                if (ans[nrow][ncol] == oldColor) {
+                    ans[nrow][ncol] = newColor;
+                    q.push({nrow, ncol});
+                    visited[nrow][ncol] = true;
+                }
+            }
+        }
+    }
+    return ans;
+}
