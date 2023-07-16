@@ -1,0 +1,42 @@
+https://practice.geeksforgeeks.org/problems/eventual-safe-states/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=eventual-safe-states
+
+
+vector<int> eventualSafeNodes(int n, vector<int> adjn[])
+{
+    // code here
+    int indegree[n]={0};
+    vector<int> adj[n];
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < adjn[i].size(); j++)
+        {
+            adj[adjn[i][j]].push_back(i);
+            indegree[i]++;
+        }
+    }
+    queue<int> q;
+    for (int i = 0; i < n; i++)
+    {
+        if (indegree[i] == 0)
+        {
+            q.push(i);
+        }
+    }
+    vector<int> ans;
+    while (!q.empty())
+    {
+        int top = q.front();
+        q.pop();
+        ans.push_back(top);
+        for (int i = 0; i < adj[top].size(); i++)
+        {
+             indegree[adj[top][i]]--;
+            if (indegree[adj[top][i]] == 0)
+            {
+              q.push(adj[top][i]); 
+            }
+        }
+    }
+    sort(ans.begin(), ans.end());
+    return ans;
+}
