@@ -1,0 +1,45 @@
+https://practice.geeksforgeeks.org/problems/shortest-path-in-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=direct-acyclic-graph
+
+    vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+         vector<pair<int,int>>adj[N];
+         //for inserting elemnt in adjancy list
+         for(int i=0;i<M;i++){
+             adj[edges[i][0]].push_back(make_pair(edges[i][1],edges[i][2]));
+         }
+        int deg[N]={0};
+        queue<int>q;
+        //indegree record
+        for(int i=0;i<M;i++){
+             deg[edges[i][1]]++;
+        }
+        vector<int> ans(N,-1);
+
+        for(int i=1;i<N;i++){
+             if(deg[i]==0){
+                 //if anyone degree is zero accept element zero then
+                 //then we have to decrease degree of iits adjacent element
+                 for(auto p: adj[i]){
+                 deg[p.first]--;
+                 }
+             }
+             
+        }
+        ans[0]=0;
+        q.push(0);
+        
+        while(!q.empty()){
+             int e=q.front();
+             q.pop();
+             for(auto p: adj[e]){
+                 int f=p.first;
+                 int s=p.second;
+                 deg[f]--;
+                 if(deg[f]==0)q.push(f);
+                 if(ans[f]==-1||ans[f]>ans[e]+s){
+                     ans[f]=ans[e]+s;
+                 }
+             }
+         }
+       
+           return ans;
+    }
