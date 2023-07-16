@@ -1,0 +1,64 @@
+https://practice.geeksforgeeks.org/problems/prerequisite-tasks/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=prerequisite-tasks
+
+
+bool dfs(vector<int> adj[], int sv, bool *visited, bool *pathvis)
+{
+    pathvis[sv] = true;
+    visited[sv] = true;
+    for (int i = 0; i < adj[sv].size(); i++)
+    {
+        if (!visited[adj[sv][i]])
+        {
+            if (dfs(adj, adj[sv][i], visited, pathvis))
+            {
+                return true;
+            }
+        }
+        else if (pathvis[adj[sv][i]])
+        {
+            return true;
+        }
+    }
+    pathvis[sv] = false;
+    return false;
+}
+bool iscyclic(int n, vector<int> adj[])
+{
+    bool *visited = new bool[n];
+    bool *pathvis = new bool[n];
+    for (int i = 0; i < n; i++)
+    {
+        pathvis[i] = false;
+        visited[i] = false;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (!visited[i])
+        {
+            if (dfs(adj, i, visited, pathvis))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool isPossible(int n, vector<pair<int, int>> &prerequisites)
+{
+    // Code here
+    vector<int> adj[n];
+    for (int i = 0; i < prerequisites.size(); i++)
+    {
+        int u = prerequisites[i].first;
+        int v = prerequisites[i].second;
+        adj[u].push_back(v);
+    }
+    if (iscyclic(n, adj))
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
